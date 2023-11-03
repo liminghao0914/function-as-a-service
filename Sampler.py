@@ -37,7 +37,7 @@ class Sampler:
         self.function_dict = {}
         self.app_dict = {}
 
-    def sample(self, total_app):
+    def sample(self, total_app=None):
         """
         _explaination_
         
@@ -50,9 +50,14 @@ class Sampler:
             function_id = row['HashFunction']
             app_id = row['HashApp']
 
-            if not app_id in self.app_dict and app_count<total_app:
-                self.app_dict[app_id] = app_count
-                app_count += 1
+            if total_app is None:
+                if not app_id in self.app_dict:
+                    self.app_dict[app_id] = app_count
+                    app_count += 1
+            else:
+                if not app_id in self.app_dict and app_count<total_app:
+                    self.app_dict[app_id] = app_count
+                    app_count += 1
 
             if not function_id in self.function_dict and app_id in self.app_dict:
                 self.function_dict[function_id] = func_count
@@ -73,11 +78,15 @@ class Sampler:
         print(self.app_dict)
         print("Size of app_dict: ", len(self.app_dict))
         print("Size of function_dict: ", len(self.function_dict))
+        if total_app is None:
+            total_app = len(self.app_dict)
         tf = open("app_dict_{}.json".format(total_app), "w")
         json.dump([self.app_dict, self.function_dict], tf)
         tf.close()
     
 if __name__ == "__main__":
-    for i in [100]:
-        tmp=Sampler()
-        function_list=tmp.sample(i)
+    # for i in [100]:
+    #     tmp=Sampler()
+    #     function_list=tmp.sample(i)
+    tmp=Sampler()
+    function_list=tmp.sample()

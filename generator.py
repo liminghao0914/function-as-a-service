@@ -87,7 +87,8 @@ class Generator:
                 continue
             if (len(self.memory_pattern[app_id])==0):
                 continue
-            for j in range(1, 1441):
+            # for j in range(1, 1441):
+            for j in range(1, 181):
                 count=int(row[str(j)])
                 if count == 0:
                     continue
@@ -179,7 +180,7 @@ class Generator:
         return result
                           
 if __name__ == "__main__":
-    for app in [100]:
+    for app in [17577]:
         for i in range(1,13):
             tmp=Generator(i, data_root="./data/", total_app=app)
             function_list=tmp.gen()
